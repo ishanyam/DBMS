@@ -1,73 +1,88 @@
 #include "Deck.h"
+#include <sstream>
+#include <string>
 
 size_t Deck::getSize() {
     return size;
 };
-void Deck::pushR(const int x) {
-    Node* temp = new Node;
-    temp->x = x;
-    if (Tail == nullptr) {
-        Tail = Head = temp;
+void Deck::pushR(const int value) {
+    Node* temp = new Node(value);
+    if (tail == nullptr) {
+        tail = head = temp;
     }
     else {
-        Tail->Next = temp;
-        Tail = temp;
+        tail->next = temp;
+        tail = temp;
     };
     size++;
 };
-void Deck::pushL(const int x) {
-    Node* temp = new Node;
-    temp->x = x;
-    if (Head == nullptr) {
-        Head = Tail = temp;
+void Deck::pushL(const int value) {
+    Node* temp = new Node(value);
+    if (head == nullptr) {
+        head = tail = temp;
     }
     else {
-        temp->Next = Head;
-        Head = temp;
+        temp->next = head;
+        head = temp;
     };
     size++;
 };
-void Deck::popR() {
+int Deck::popR() {
+    const int value = tail->_value;
     if (size == 1) {
-        delete Head;
-        Head = nullptr;
-        Tail = nullptr;
+        delete head;
+        head = nullptr;
+        tail = nullptr;
     }
     else {
-        Node* tempNode = Head;
+        Node* tempNode = head;
         for (int i = 1; i < size - 1; i++) {
-            tempNode = tempNode->Next;
+            tempNode = tempNode->next;
         }
-        tempNode->Next = nullptr;
-        delete Tail;
-        Tail = tempNode;
+        tempNode->next = nullptr;
+        delete tail;
+        tail = tempNode;
     };
     size--;
+    return value;
 };
-void Deck::popL() {
+int Deck::popL() {
+    const int value = head->_value;
     if (size == 1) {
-        delete Head;
-        Head = nullptr;
-        Tail = nullptr;
+        delete head;
+        head = nullptr;
+        tail = nullptr;
     }
     else {
-        Node* tempHead = Head->Next;
-        delete Head;
-        Head = tempHead;
+        Node* temphead = head->next;
+        delete head;
+        head = temphead;
     }
     size--;
+    return value;
 };
-void Deck::editL(Deck M, const int x) {
-    M.popL();
-    M.pushL(x);
+void Deck::editL(const int value) {
+    this->popL();
+    this->pushL(value);
 };
-void Deck::editR(Deck M, const int x) {
-    M.popR();
-    M.pushR(x);
+void Deck::editR(const int value) {
+    this->popR();
+    this->pushR(value);
 };
-int Deck::printL() {
-    return Head->x;
+int Deck::getL() {
+    return head->_value;
 };
-int Deck::printR() {
-    return Tail->x;
+int Deck::getR() {
+    return tail->_value;
+};
+std::ostream& operator<< (std::ostream& out, Deck& deck)
+{
+    std::string ret;
+    const size_t size = deck.getSize();
+    for (int i = 0; i < size; i++) {
+        std::ostringstream temp;
+        temp << deck.popL();
+        ret += temp.str() + " ";
+    };
+    return out << ret;
 };
