@@ -1,4 +1,4 @@
-﻿#include "Deck.h"
+#include "Deck.h"
 
 using namespace std;
 
@@ -11,6 +11,7 @@ void printMENU() {
     cout << "5) Delete element (Right)\n";
     cout << "6) Edit element (Left)\n";
     cout << "7) Edit element (Right)\n";
+    cout << "8) Print Deck ('<<' overload)\n";
     cout << "\nQuit - q\n";
 }
 
@@ -19,14 +20,14 @@ void printElements(Deck M) {
         cout << "Deck is empty!" << endl;
     }
     else if (M.getSize() == 1) {
-        cout << M.printL() << endl;
+        cout << M.getL() << endl;
     }
     else {
-        cout << M.printL() << " ";
+        cout << M.getL() << " ";
         for (int i = 2; i < M.getSize(); i++) {
             cout << "__ ";
         };
-        cout << M.printR() << endl;
+        cout << M.getR() << endl;
     }
 };
 
@@ -41,7 +42,7 @@ int main()
         int k = 0;
         switch (key) {
         case '1':
-            cout << "Deck items:" << endl;
+            cout << "Deck items: ";
             printElements(M);
             break;
         case '2':
@@ -65,13 +66,19 @@ int main()
             cout << "Done." << endl;
             break;
         case '6':
+            cout << "Enter new value: ";
             cin >> k;
-            M.editL(M, k);
+            M.editL(k);
             cout << "Done." << endl;
             break;
         case '7':
+            cout << "Enter new value: ";
             cin >> k;
-            M.editR(M, k);
+            M.editR(k);
+            cout << "Done." << endl;
+            break;
+        case '8':
+            cout << "Elements of Deck: " << M << endl;
             cout << "Done." << endl;
             break;
         }
