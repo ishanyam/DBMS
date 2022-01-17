@@ -1,4 +1,4 @@
-#include "Deck.h"
+﻿#include "Deck.h"
 
 using namespace std;
 
@@ -15,7 +15,7 @@ void printMENU() {
     cout << "\nQuit - q\n";
 }
 
-void printElements(Deck M) {
+void printElements(Deck& M) {
     if (M.getSize() == 0) {
         cout << "Deck is empty!" << endl;
     }
